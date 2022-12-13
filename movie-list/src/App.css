@@ -13,6 +13,19 @@
   }
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 100px;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -32,6 +45,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
