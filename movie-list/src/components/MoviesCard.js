@@ -37,7 +37,7 @@ const MoviesCard =(props)=> {
         Poster:"",
     }
 
-    async function search(value){
+    async function Search(value){
         if(value.length === 0){
             fetchMovies();
         }
@@ -57,15 +57,6 @@ const MoviesCard =(props)=> {
         }
     }
 
-    function handleChangeType (event){
-        setType(event.target.value);
-     };
-     function handleChangeYear (selectedYear){
-        setYear(selectedYear.target.value);
-     };
-     function handleChangeIMDB (event){
-        setImdb(event.target.value);
-     };
     async function fetchMovies(){
         const response =await axios.get('https://www.omdbapi.com/?apikey=156f8ea8&s=any'); 
         setMovies(response.data.Search); 
@@ -86,6 +77,7 @@ const MoviesCard =(props)=> {
         setOpen(true);
     };
 
+  //Todo Form eklendiğinde kullanılacak validation metodu
   const validate = (values) => {
     const errors = {};
     if (!values.name) {
@@ -102,9 +94,6 @@ const MoviesCard =(props)=> {
  
   const handleClose = () => {
     setOpen(false);
-  };
-  const saveMovie = () => {
-    
   };
 
 
@@ -126,17 +115,13 @@ const MoviesCard =(props)=> {
                             <DialogTitle>{"Film Ekleme"}</DialogTitle>
                         <div className={classes.dialog}>
                            <form id='addingMovie'>
-
                                 <DialogContent>
                                 <DialogContentText id="alert-dialog-slide-description">
-                            
-                                    
                                 <TextField onChange={(val)=>addingMovie.Title=val} name="title" fullWidth  required  label="Film Adı" />
                                 <TextField name="year" fullWidth  required   label="Yıl" />
                                 <TextField name="type" fullWidth  required  label="Tip" />
                                 <TextField name="actors" fullWidth  required   label="Aktörler" />
                                 <TextField name="poster" fullWidth  required   label="Afiş Url" />
-                              
                                 </DialogContentText>
                                 </DialogContent>
                                 <DialogActions>
@@ -156,7 +141,7 @@ const MoviesCard =(props)=> {
                    <Select 
                         value={type}
                         label="Tür Seçiniz"
-                        onChange={(event)=>handleChangeType(event)} 
+                        onChange={(event)=>setType(event.target.value)} 
                         className={classes.yearDropdown}
                     >
                         <MenuItem value="">
@@ -169,7 +154,7 @@ const MoviesCard =(props)=> {
                 <Select 
                         value={year}
                         label="Yıl Seçiniz"
-                        onChange={(event)=>handleChangeYear(event)} 
+                        onChange={(event)=>setYear(event.target.value)} 
                         className={classes.yearDropdown}
                     >
                         <MenuItem value="">
@@ -183,12 +168,13 @@ const MoviesCard =(props)=> {
                     <Select 
                         value={imdb}
                         label="IMDB Seçiniz"
-                        onChange={(event)=>handleChangeIMDB(event)}
+                        onChange={(event)=> setImdb(event.target.value)}
                         className={classes.yearDropdown}
                     >
                         <MenuItem value="">
                             <em>Seçiniz</em>
                         </MenuItem>
+                        {/*TO DO Döngüye alıp iteractive üret.  */}
                         <MenuItem value={"10"}>10</MenuItem>
                         <MenuItem value={"9"}>9</MenuItem>
                         <MenuItem value={"8"}>8</MenuItem>
@@ -209,15 +195,13 @@ const MoviesCard =(props)=> {
                         label="" //
                         variant="outlined"
                         placeholder='En az 3 Karakter giriniz'
-                        onChange={(val)=>search(val.currentTarget.value)}
+                        onChange={(val)=>Search(val.currentTarget.value)}
                         /> 
                 </div>
                : null
                }
            
             </div>
-          
-         
             {listFlag ? 
             <div className={classes.movieList}>{
                 myMovies.map((item)=>{
