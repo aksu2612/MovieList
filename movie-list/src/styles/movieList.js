@@ -15,14 +15,14 @@ export const useStyles = makeStyles((theme) => ({
     display:'flex',
     flexWrap:'wrap',
     listStyle:'none',
-    minWidth:'400px',
   },
   Movie:{
     display:'flex',
     flexWrap:'wrap',
     borderRadius:'30px',
-    backgroundColor:'#8DE4FF',
+    backgroundColor:'#DFEBEF',
     margin:'20px',
+  
   }, 
   searchBar: {
     display: 'flex',
@@ -32,7 +32,14 @@ export const useStyles = makeStyles((theme) => ({
   searchButton:{
     
   },
+  info:{
+    margin:'20px',
+    width:'200px', 
+  },
   image:{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginLeft:'20px', 
     display:'flex',
     width:'370px'
