@@ -7,8 +7,8 @@ export const useStyles = makeStyles((theme) => ({
     alignItems:'center',
     width:'100%',
     backgroundColor:'#babababa',
-    height: '600px',
-    fontSize: '3rem',
+    height: '60px',
+    fontSize: '1.2rem',
     textAlign:'left'
   },
   movieList:{
@@ -43,5 +43,17 @@ export const useStyles = makeStyles((theme) => ({
     marginLeft:'20px', 
     display:'flex',
     width:'370px'
+  },
+  yearDropdown:{
+    width:'200px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin:'20px'
+  },
+  dialog:{
+    height:'350px',
+    width:'550px',
+    marginTop:'30px'
   }
 }));

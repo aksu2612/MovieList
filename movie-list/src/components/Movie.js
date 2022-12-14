@@ -26,13 +26,11 @@ function Movie(props) {
   }
   function removeMovieList(movieDetail){ 
 
-
-  setMyMovieList( myMovieList.filter(function(item) {
-    return item.imdbID !== movieDetail.imdbID
-  }))
-
-    localStorage.setItem('movies', JSON.stringify(myMovieList)); 
-    setAddingFlag(true)
+    const localStoregeMovie = JSON.parse(localStorage.getItem('movies'));
+    const filteredList=  localStoregeMovie.filter(item => item.imdbID !==movieDetail.imdbID); 
+     console.log("filteredList");
+     console.log(filteredList);
+     localStorage.setItem('movies', JSON.stringify(filteredList)); 
   }
   return (
     <div className={classes.Movie} >
