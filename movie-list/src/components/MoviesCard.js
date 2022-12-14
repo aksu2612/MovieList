@@ -1,5 +1,4 @@
-import React from 'react';
-import {useState,useEffect} from 'react';
+import React, { useContext,useState,useEffect } from 'react';
 import axios from 'axios';
 import { useStyles } from '../styles/movieList';
 import Movie from './Movie';
@@ -13,7 +12,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';  
-
+import { AppContext } from '../context';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
   });
@@ -42,7 +41,14 @@ const MoviesCard =(props)=> {
             fetchMovies();
         }
         if(value.length>2 ){
-            let response =await axios.get(`https://www.omdbapi.com/?apikey=156f8ea8&s=${value}&type=${type}&y=${year}&imdbRating=${imdb}`);
+            let response ='';
+            if(type !=="" && imdb !==0 && year !==0){
+              response =await axios.get(`https://www.omdbapi.com/?apikey=156f8ea8&s=${value}&type=${type}&y=${year}&imdbRating=${imdb}`);
+            }
+            else{
+              response =await axios.get(`https://www.omdbapi.com/?apikey=156f8ea8&s=${value}`);
+
+            }
             if(response.data.Response !== "False"){ 
                 response.data.Search = response.data.Search.sort((a, b) => {
                     if (a.Year > b.Year  ) {
@@ -60,7 +66,10 @@ const MoviesCard =(props)=> {
     async function fetchMovies(){
         const response =await axios.get('https://www.omdbapi.com/?apikey=156f8ea8&s=any'); 
         setMovies(response.data.Search); 
-    }
+    
+    }  
+    const { movieList } = useContext(AppContext);
+    console.log(movieList)
     useEffect(()=>{
         fetchMovies();      
     },[])
@@ -94,7 +103,12 @@ const MoviesCard =(props)=> {
  
   const handleClose = () => {
     setOpen(false);
-  };
+  }; 
+  
+  const { dispatchMovieEvent } = useContext(AppContext);
+  const handleAddMovie = () => {
+		dispatchMovieEvent('ADD_MOVIE', { movie: addingMovie });
+	};
 
 
     return (
@@ -122,6 +136,12 @@ const MoviesCard =(props)=> {
                                 <TextField name="type" fullWidth  required  label="Tip" />
                                 <TextField name="actors" fullWidth  required   label="Aktörler" />
                                 <TextField name="poster" fullWidth  required   label="Afiş Url" />
+                                <Button 
+                                    variant="outlined"
+                                    onClick={handleAddMovie}
+                                >
+                                    İzleme Listesine Ekle
+                                </Button>
                                 </DialogContentText>
                                 </DialogContent>
                                 <DialogActions>

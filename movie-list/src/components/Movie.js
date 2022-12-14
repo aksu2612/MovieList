@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useStyles } from '../styles/movieList';
 import axios from 'axios';
 import Button from '@mui/material/Button';
-import Alert from '@mui/material/Alert';
+import { AppContext } from '../context';
+
 function Movie(props) {
     const items = JSON.parse(localStorage.getItem('movies'));
     const [movieDetail,setMovieDetail]=useState({});
@@ -24,14 +25,12 @@ function Movie(props) {
     localStorage.setItem('movies', JSON.stringify(myMovieList)); 
     setAddingFlag(true)
   }
-  function removeMovieList(movieDetail){ 
 
-    const localStoregeMovie = JSON.parse(localStorage.getItem('movies'));
-    const filteredList=  localStoregeMovie.filter(item => item.imdbID !==movieDetail.imdbID); 
-     console.log("filteredList");
-     console.log(filteredList);
-     localStorage.setItem('movies', JSON.stringify(filteredList)); 
-  }
+  const { dispatchMovieEvent } = useContext(AppContext);
+  const handleRemoveMovie = () => {
+		dispatchMovieEvent('REMOVE_MOVIE', { imdbID: props.movie.imdbID });
+	};
+
   return (
     <div className={classes.Movie} >
           <div className={classes.image}>
@@ -54,11 +53,12 @@ function Movie(props) {
             </Button> :
             <Button 
             variant="outlined"
-            onClick={()=>removeMovieList(movieDetail)}
+            onClick={handleRemoveMovie}
           >
             İzleme Listesinden Çıkar
           </Button>
             } 
+            
          </div>   
     </div>
   )
