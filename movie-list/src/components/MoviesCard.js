@@ -27,7 +27,7 @@ const MoviesCard =(props)=> {
     const [year, setYear] = React.useState(0);
     const [imdb, setImdb] = React.useState(0);
     const [open, setOpen] = React.useState(false);
-
+    const [userMovie ,setUserMovie]= useState({});
     let addingMovie ={
         Title:"",
         Language:"",
@@ -70,6 +70,7 @@ const MoviesCard =(props)=> {
     }  
     const { movieList } = useContext(AppContext);
     console.log(movieList)
+
     useEffect(()=>{
         fetchMovies();      
     },[])
@@ -107,7 +108,9 @@ const MoviesCard =(props)=> {
   
   const { dispatchMovieEvent } = useContext(AppContext);
   const handleAddMovie = () => {
-		dispatchMovieEvent('ADD_MOVIE', { movie: addingMovie });
+        setUserMovie(addingMovie)
+		dispatchMovieEvent('ADD_MOVIE', {  addingMovie });
+        setOpen(false)
 	};
 
 
@@ -131,11 +134,11 @@ const MoviesCard =(props)=> {
                            <form id='addingMovie'>
                                 <DialogContent>
                                 <DialogContentText id="alert-dialog-slide-description">
-                                <TextField onChange={(val)=>addingMovie.Title=val} name="title" fullWidth  required  label="Film Adı" />
-                                <TextField name="year" fullWidth  required   label="Yıl" />
-                                <TextField name="type" fullWidth  required  label="Tip" />
-                                <TextField name="actors" fullWidth  required   label="Aktörler" />
-                                <TextField name="poster" fullWidth  required   label="Afiş Url" />
+                                <TextField onChange={(val)=>addingMovie.Title=val.target.value} name="title" fullWidth  required  label="Film Adı" />
+                                <TextField onChange={(val)=>addingMovie.Year=val.target.value}  name="year" fullWidth  required   label="Yıl" />
+                                <TextField onChange={(val)=>addingMovie.Type=val.target.value} name="type" fullWidth  required  label="Tip" />
+                                <TextField onChange={(val)=>addingMovie.Actors=val.target.value} name="actors" fullWidth  required   label="Aktörler" />
+                                <TextField onChange={(val)=>addingMovie.Poster=val.target.value} name="poster" fullWidth  required   label="Afiş Url" />
                                 <Button 
                                     variant="outlined"
                                     onClick={handleAddMovie}
@@ -165,7 +168,7 @@ const MoviesCard =(props)=> {
                         className={classes.yearDropdown}
                     >
                         <MenuItem value="">
-                            <em>Seçiniz</em>
+                            <em>Tür Seçiniz</em>
                         </MenuItem>
                         <MenuItem value={"movie"}>Movie</MenuItem>
                         <MenuItem value={"episode"}>Episode</MenuItem>
@@ -178,7 +181,7 @@ const MoviesCard =(props)=> {
                         className={classes.yearDropdown}
                     >
                         <MenuItem value="">
-                            <em>Seçiniz</em>
+                            <em>Yıl Seçiniz</em>
                         </MenuItem>
                         <MenuItem value={"2022"}>2022</MenuItem>
                         <MenuItem value={"2021"}>2021</MenuItem>
@@ -192,7 +195,7 @@ const MoviesCard =(props)=> {
                         className={classes.yearDropdown}
                     >
                         <MenuItem value="">
-                            <em>Seçiniz</em>
+                            <em>IMDB Seçiniz</em>
                         </MenuItem>
                         {/*TO DO Döngüye alıp iteractive üret.  */}
                         <MenuItem value={"10"}>10</MenuItem>

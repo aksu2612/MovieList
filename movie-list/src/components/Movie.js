@@ -5,9 +5,9 @@ import Button from '@mui/material/Button';
 import { AppContext } from '../context';
 
 function Movie(props) {
-    const items = JSON.parse(localStorage.getItem('movies'));
+  const items = JSON.parse(localStorage.getItem('movies'));
     const [movieDetail,setMovieDetail]=useState({});
-    const [myMovieList,setMyMovieList]=useState(items);
+    const [myMovieList,setMyMovieList]=useState(items ===null ? [] : items);
     const [addingFlag,setAddingFlag]=useState(false);
     const classes = useStyles();
 
@@ -18,11 +18,18 @@ function Movie(props) {
 
   useEffect(()=>{
     fetchMovieWithId();
-  },[myMovieList])
+  },[])
 
-  function addMovieList(movieDetail){ 
-    myMovieList.push(movieDetail)
-    localStorage.setItem('movies', JSON.stringify(myMovieList)); 
+  function addMovieList(movieDetail){  
+    const items = JSON.parse(localStorage.getItem('movies'));
+    setMyMovieList(items);
+    if(myMovieList.length === 0 ){ 
+      myMovieList[0]=movieDetail
+      localStorage.setItem('movies', JSON.stringify(myMovieList)); 
+    }else{
+      myMovieList.push(movieDetail)
+      localStorage.setItem('movies', JSON.stringify(myMovieList)); 
+    }
     setAddingFlag(true)
   }
 

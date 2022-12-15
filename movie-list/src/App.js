@@ -11,7 +11,10 @@ function App() {
 		switch (actionType) {
 			case 'ADD_MOVIE':
         const getMovie = JSON.parse(localStorage.getItem('movies'));
-				setMovieList([ ...getMovie, payload ]);
+        if(getMovie !== null){
+          setMovieList(getMovie);
+        }
+				movieList.push(payload.addingMovie)
         localStorage.setItem('movies', JSON.stringify(movieList));
 				return;
 			case 'REMOVE_MOVIE':
